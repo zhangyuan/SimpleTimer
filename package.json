@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --port 4040 --devtool eval --progress --colors --hot --content-base app"
+    "dev": "webpack-dev-server --port 4040 --devtool eval --progress --colors --hot --inline"
   },
   "author": "",
   "license": "ISC",
