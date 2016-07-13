@@ -22,10 +22,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
-      loaders: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader',
-      }]
+      loaders: [
+        { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+        { test: /\.css$/, loader: "style-loader!css-loader" },]
   }
 };
