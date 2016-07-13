@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --port 4040 --devtool eval --progress --colors --hot --content-base app"
   },
   "author": "",
   "license": "ISC",

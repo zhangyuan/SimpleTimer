@@ -1,7 +1,12 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
-  entry: './app/application.js',
+  entry: [
+    'webpack/hot/dev-server',
+    path.resolve(__dirname, 'app/application.js')
+  ],
   output: {
     path: './dist',
     filename: 'application.bundle.js'
@@ -11,9 +16,10 @@ module.exports = {
       inject: true,
       title: "Simple Timer",      
       filename: 'index.html', 
-      template: 'app/application.html'     
-      // hash: true
-    })
+      template: 'app/application.html',     
+      hash: true
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   module: {
       loaders: [{

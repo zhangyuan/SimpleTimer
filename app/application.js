@@ -1,1 +1,1 @@
-let some = 1
+console.log(1)
