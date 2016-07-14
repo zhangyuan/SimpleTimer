@@ -25,9 +25,22 @@ class Clock extends React.Component {
     super(props);
     this.state = {
       remainingTime: props.remainingTime,
+      minutes: this.getMinutes(props.remainingTime),
+      seconds: this.getSeconds(props.remainingTime),
       onStop: props.onStop,
       status: "off"
     };
+  }
+
+  getMinutes(time){
+    let minutes =  time / 60;
+    return minutes > 0 ? minutes : 0;
+  }
+
+  getSeconds(time){
+    let seconds =  time % 60;
+
+    return seconds > 0 ? seconds : 0;
   }
 
   componentDidMount(){
@@ -35,17 +48,18 @@ class Clock extends React.Component {
   }
 
   kickoff() {
-    this.setState({status: "on"}); 
+    this.setState({status: "on"});
     const interval = 10;    
     this.tick(interval)   
   }
 
   tick(interval){    
     var remainingTime = this.state.remainingTime - interval/1000.0;
+
+    this.setState({remainingTime: remainingTime});
     if(remainingTime <= 0) {
       this.stop();
     } else {
-      this.setState({remainingTime: remainingTime});
       setTimeout(() => {
         this.tick(interval)
       }, interval);
@@ -57,15 +71,11 @@ class Clock extends React.Component {
   }
 
   render() {
-    var remainingTime = parseInt(this.state.remainingTime);
-    let minutes = remainingTime / 60;
-    let seconds = remainingTime % 60;
-
     return(
       <div className="clock">
-        <span className="minutes">{vsprintf("%02d", [minutes])}</span>
+        <span className="minutes">{vsprintf("%02d", [this.getMinutes(this.state.remainingTime)])}</span>
         <span className="separator">:</span>
-        <span className="seconds">{vsprintf("%02d", [seconds])}</span>
+        <span className="seconds">{vsprintf("%02d", [this.getSeconds(this.state.remainingTime)])}</span>
       </div>
     )
   }
