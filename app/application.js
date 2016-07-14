@@ -1,4 +1,5 @@
 require('normalize.css');
+require('./application.css');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,7 +8,11 @@ var vsprintf = require("sprintf-js").vsprintf;
 
 class App extends React.Component {
   render() {
-    return <Clock remainingTime="3" onStop={this.onStop}/>
+    return (
+      <div className="main">
+        <Clock remainingTime="3" onStop={this.onStop}/>
+      </div>
+    )
   }
 
   onStop() {
