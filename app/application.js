@@ -1,5 +1,5 @@
 require('normalize.css');
-require('./application.css');
+require('./application.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,7 +10,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="main">
-        <Clock remainingTime="3" onStop={this.onStop}/>
+        <Clock remainingTime="40" onStop={this.onStop}/>
       </div>
     )
   }
