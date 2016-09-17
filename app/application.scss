@@ -5,4 +5,9 @@
   font-size: 120px;
   color:blue;
   margin-top: 10%;
+
+  &.off {
+    color:palevioletred;
+
+  }
 }

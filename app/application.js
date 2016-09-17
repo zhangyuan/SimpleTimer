@@ -7,38 +7,64 @@ import ReactDOM from 'react-dom';
 var vsprintf = require("sprintf-js").vsprintf;
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      title: "aaa"
+    }
+  }
+
   render() {
     return (
       <div className="main">
-        <Clock remainingTime="40" onStop={this.onStop}/>
+        <Clock remainingTime="3" onStarted={this.onStarted.bind(this)} onStop={this.onStop.bind(this)}/>
+
+        <div className="title">
+          {this.state.title}
+        </div>
+
+        <div className="buttons">
+          <button onClick={this.startButtonClicked}>Go!</button>
+        </div>
       </div>
     )
   }
 
+  onStarted(){
+    this.setState({title: "tick, tick, tick..."})
+  }
+
+  startButtonClicked(e) {
+    console.log("onStartClicked")
+  }
+
   onStop() {
-    console.log("on stop");
+    this.setState({title: "Time is up!"})
   }
 }
 
 class Clock extends React.Component {
   constructor(props) {
     super(props);
+    this.remainingTime = props.remainingTime;
+    this.onStop = props.onStop;
+    this.onStarted = props.onStarted;
+
+    this.onStart = props.onStart;
+
     this.state = {
       remainingTime: props.remainingTime,
-      minutes: this.getMinutes(props.remainingTime),
-      seconds: this.getSeconds(props.remainingTime),
-      onStop: props.onStop,
       status: "off"
     };
   }
 
   getMinutes(time){
-    let minutes =  time / 60;
+    let minutes =  this.state.remainingTime / 60;
     return minutes > 0 ? minutes : 0;
   }
 
   getSeconds(time){
-    let seconds =  time % 60;
+    let seconds =  this.state.remainingTime % 60;
 
     return seconds > 0 ? seconds : 0;
   }
@@ -50,35 +76,44 @@ class Clock extends React.Component {
   kickoff() {
     this.setState({status: "on"});
     const interval = 10;    
-    this.tick(interval)   
+    this.tick(interval)
+    this.onStarted();
+  }
+
+  clearTimeout(){
+    clearTimeout(this.currentTimeout);
   }
 
   tick(interval){    
     var remainingTime = this.state.remainingTime - interval/1000.0;
 
+    this.clearTimeout();
     this.setState({remainingTime: remainingTime});
     if(remainingTime <= 0) {
       this.stop();
     } else {
-      setTimeout(() => {
+      this.currentTimeout = setTimeout(() => {
         this.tick(interval)
       }, interval);
     }
   }
 
   stop(){
-    this.state.onStop()
+    this.setState({status: 'off'})
+    this.onStop()
   }
 
   render() {
     return(
-      <div className="clock">
-        <span className="minutes">{vsprintf("%02d", [this.getMinutes(this.state.remainingTime)])}</span>
+      <div className={"clock " + this.state.status}>
+        <span className="minutes">{vsprintf("%02d", [this.getMinutes()])}</span>
         <span className="separator">:</span>
-        <span className="seconds">{vsprintf("%02d", [this.getSeconds(this.state.remainingTime)])}</span>
+        <span className="seconds">{vsprintf("%02d", [this.getSeconds()])}</span>
       </div>
     )
   }
+
+
 }
 
 
